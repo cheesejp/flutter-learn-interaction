@@ -3,9 +3,9 @@
 // ==========================================================================================================
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyTab());
+void main() => runApp(MyApp());
 
-class MyTab extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         home: LayoutPage(
