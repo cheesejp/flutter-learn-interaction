@@ -85,19 +85,6 @@ class LayoutPage extends StatelessWidget {
       ],
     );
 
-    Widget _textSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Text(
-        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
-        'Alps. Situated 1,578 meters above sea level, it is one of the '
-        'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
-        'half-hour walk through pastures and pine forest, leads you to the '
-        'lake, which warms to 20 degrees Celsius in the summer. Activities '
-        'enjoyed here include rowing, and riding the summer toboggan run.',
-        softWrap: true,
-      ),
-    );
-
     Widget _highlightButtonSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -106,17 +93,13 @@ class LayoutPage extends StatelessWidget {
       ],
     );
 
+    Widget _checkButtonSection = CheckButtonSection();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: <Widget>[
-              // Image.asset(
-              //   'images/lake.jpg',
-              //   width: 600,
-              //   height: 240,
-              //   fit: BoxFit.cover,
-              // ),
               Container(
                 width: 600,
                 height: 240,
@@ -134,8 +117,8 @@ class LayoutPage extends StatelessWidget {
               ),
               _titleSection,
               _iconSection,
-              _textSection,
               _highlightButtonSection,
+              _checkButtonSection,
             ],
           ),
         ),
@@ -151,7 +134,7 @@ class FavoriteWidget extends StatefulWidget {
 
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = true;
-  int _favoriteCount = 41;
+  int _favoriteCount = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +188,7 @@ class _HighlightButtonState extends State<HighlightButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: HighlightButtonTmp(
+      child: HighlightButtonInner(
         active: _active,
         onChanged: _handleTapboxChanged,
       ),
@@ -213,17 +196,17 @@ class _HighlightButtonState extends State<HighlightButton> {
   }
 }
 
-class HighlightButtonTmp extends StatefulWidget {
-  HighlightButtonTmp({@required this.active, @required this.onChanged});
+class HighlightButtonInner extends StatefulWidget {
+  HighlightButtonInner({@required this.active, @required this.onChanged});
 
   final bool active;
   final ValueChanged<bool> onChanged;
 
   @override
-  State<StatefulWidget> createState() => _HighlightButtonTmpState();
+  State<StatefulWidget> createState() => _HighlightButtonInnerState();
 }
 
-class _HighlightButtonTmpState extends State<HighlightButtonTmp> {
+class _HighlightButtonInnerState extends State<HighlightButtonInner> {
   bool _highlight = false;
 
   void _onTap() {
@@ -274,5 +257,54 @@ class _HighlightButtonTmpState extends State<HighlightButtonTmp> {
         height: 100.0,
       ),
     );
+  }
+}
+
+class CheckButtonSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        RowCheckButton(),
+        RowCheckButton(isActive: true),
+        RowCheckButton(isActive: false),
+      ],
+    );
+  }
+}
+
+class RowCheckButton extends StatefulWidget {
+  RowCheckButton({this.isActive = false});
+
+  final bool isActive;
+  @override
+  State<StatefulWidget> createState() => _RowCheckButtonState();
+}
+
+class _RowCheckButtonState extends State<RowCheckButton> {
+  bool _isActive;
+
+  void _changeCallback(newValue) {
+    print('on push');
+    setState(() {
+      _isActive = newValue;
+    });
+  }
+
+  @override
+  void initState() {
+    _isActive = widget.isActive;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(value: _isActive, onChanged: _changeCallback);
+    // return CheckboxListTile(
+    //   value: _isActive,
+    //   onChanged: _changeCallback,
+    //   title: Text('aaaa'),
+    // );
   }
 }
